@@ -2,6 +2,7 @@
 
 import streamlit as st
 import pandas as pd
+import os
 
 # --- Page config ---
 st.set_page_config(page_title="Insurance Lookup Tool", page_icon="🛡️", layout="wide")
@@ -9,10 +10,11 @@ st.set_page_config(page_title="Insurance Lookup Tool", page_icon="🛡️", layo
 # --- Load data ---
 @st.cache_data
 def load_data():
-    fact_claims   = pd.read_parquet("data/fact_claims")
-    dim_customers = pd.read_parquet("data/dim_customers")
-    dim_policies  = pd.read_parquet("data/dim_policies")
-    dim_agents    = pd.read_parquet("data/dim_agents")
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    fact_claims   = pd.read_csv(os.path.join(BASE_DIR, "csv_data", "fact_claims", "fact_claims.csv"))
+    dim_customers = pd.read_csv(os.path.join(BASE_DIR, "csv_data", "dim_customers", "dim_customers.csv"))
+    dim_policies  = pd.read_csv(os.path.join(BASE_DIR, "csv_data", "dim_policies", "dim_policies.csv"))
+    dim_agents    = pd.read_csv(os.path.join(BASE_DIR, "csv_data", "dim_agents", "dim_agents.csv"))
     return fact_claims, dim_customers, dim_policies, dim_agents
 
 fact_claims, dim_customers, dim_policies, dim_agents = load_data()
